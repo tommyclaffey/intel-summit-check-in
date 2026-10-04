@@ -28,15 +28,25 @@
     <div class="attendance-tracker">
       <div class="attendance-header">
         <i class="fas fa-users"></i>
-        Attendance: <span id="attendeeCount">0</span>/50
+        Attendance:
+        <span class="attendance-total"
+          ><span id="attendeeCount">0</span>/<span id="attendeeGoal">50</span></span
+        >
       </div>
-      <div class="progress-container">
+      <div
+        class="progress-container"
+        role="progressbar"
+        aria-label="Attendance toward goal"
+        aria-valuemin="0"
+        aria-valuemax="50"
+        aria-valuenow="0"
+      >
         <div id="progressBar" class="progress-bar"></div>
       </div>
     </div>
     <div class="container">
       <!-- Feedback message -->
-      <p id="greeting"></p>
+      <p id="greeting" role="status" aria-live="polite"></p>
 
       <!-- Check-in form -->
       <form class="check-in" id="checkInForm">
@@ -48,6 +58,8 @@
               id="attendeeName"
               name="attendeeName"
               placeholder="Enter name..."
+              autocomplete="off"
+              maxlength="60"
               required
             />
             <select id="teamSelect" name="team" required>
@@ -84,8 +96,10 @@
 
       <!-- Attendee list (LevelUp) -->
       <div class="attendee-section">
-        <h3>Attendee List</h3>
-        <p id="emptyListMessage" class="empty-list">No one has checked in yet.</p>
+        <h3>Attendee List (<span id="listCount">0</span>)</h3>
+        <p id="emptyListMessage" class="empty-list">
+          No one has checked in yet. The first name will appear here.
+        </p>
         <ul id="attendeeList" class="attendee-list"></ul>
         <button type="button" id="resetBtn" class="reset-btn">
           <i class="fas fa-rotate-left"></i> Reset Check-Ins
@@ -94,7 +108,7 @@
     </div>
 
     <footer class="footer">
-      &copy; 2025 Intel •
+      &copy; 2026 Intel •
       <a
         href="https://www.intel.com/content/www/us/en/corporate-responsibility/2030-goals.html"
         class="footer-link"

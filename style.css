@@ -255,7 +255,7 @@ button .fas {
 
 .success-message {
   background-color: #e8f4fc;
-  color: #003c71 !important;
+  color: #003c71;
 }
 
 /* Counter */
@@ -383,29 +383,57 @@ select {
   }
 }
 
-/* ---------- Added: count styling, messages, attendee list ---------- */
+/* ==========================================================================
+   Added for the check-in logic: counts, messages, winner, attendee list
+   ========================================================================== */
+
+/* Keep "12/50" together — the header's flex gap was splitting it */
+.attendance-total {
+  white-space: nowrap;
+}
+
+/* Team counts */
 .team-count {
   font-size: 28px;
   font-weight: 700;
   color: #003c71;
 }
 
-.error-message {
-  background-color: #fef2f2;
-  color: #b91c1c !important;
+/* Progress bar turns green once the goal is reached */
+.progress-bar.complete {
+  background-image: linear-gradient(90deg, #16a34a, #22c55e);
 }
 
-.celebration-message {
-  background: linear-gradient(90deg, #0071c5, #00aeef);
-  color: white !important;
-  font-weight: 700 !important;
+/* Messages — #greeting already sets a colour, so these match its specificity */
+#greeting.success-message {
+  background-color: #e8f4fc;
+  color: #003c71;
+}
+
+#greeting.error-message {
+  background-color: #fef2f2;
+  color: #b91c1c;
+}
+
+#greeting.celebration-message {
+  background-image: linear-gradient(90deg, #0071c5, #00aeef);
+  color: white;
+  font-weight: 700;
   animation: pop 0.5s ease;
 }
 
 @keyframes pop {
-  0% { transform: scale(0.95); opacity: 0; }
-  60% { transform: scale(1.03); opacity: 1; }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.03);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 /* Winning team card */
@@ -461,11 +489,31 @@ select {
   background: #f8fafc;
   border-radius: 10px;
   border-left: 4px solid #cbd5e1;
+  animation: slide-in 0.3s ease;
 }
 
-.attendee-item.water { border-left-color: #00aeef; }
-.attendee-item.zero { border-left-color: #22c55e; }
-.attendee-item.power { border-left-color: #f59e0b; }
+/* Only the newest row animates in — older rows were already there */
+.attendee-item:not(:first-child) {
+  animation: none;
+}
+
+@keyframes slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+/* Team colours match the team cards */
+.attendee-item.water {
+  border-left-color: #00aeef;
+}
+.attendee-item.zero {
+  border-left-color: #22c55e;
+}
+.attendee-item.power {
+  border-left-color: #f59e0b;
+}
 
 .attendee-name {
   font-weight: 600;
@@ -479,6 +527,7 @@ select {
   white-space: nowrap;
 }
 
+/* Reset — deliberately quiet so it isn't clicked by accident */
 .reset-btn {
   margin: 24px auto 0;
   background: transparent;
@@ -493,4 +542,20 @@ select {
   background: #f1f5f9;
   color: #0071c5;
   box-shadow: none;
+}
+
+/* Visible focus for keyboard users */
+button:focus-visible,
+select:focus-visible {
+  outline: 3px solid #00c7fd;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
 }
